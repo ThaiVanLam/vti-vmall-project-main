@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import vn.vti.dtn2504.common.api.response.ApiResponse;
 import vn.vti.dtn2504.usermanager.dto.request.CreateAccountRequest;
 import vn.vti.dtn2504.usermanager.dto.response.CreateAccountResponse;
 import vn.vti.dtn2504.usermanager.service.UserService;
@@ -17,8 +18,8 @@ public class UserAccountController {
     private final UserService userService;
 
     @PostMapping
-    public ResponseEntity<CreateAccountResponse> createAccount(@RequestBody CreateAccountRequest createAccountRequest) {
+    public ResponseEntity<ApiResponse<CreateAccountResponse>> createAccount(@RequestBody CreateAccountRequest createAccountRequest) {
         CreateAccountResponse createAccountResponse = userService.createAccount(createAccountRequest);
-        return ResponseEntity.ok(createAccountResponse);
+        return ResponseEntity.ok(ApiResponse.success(createAccountResponse));
     }
 }
