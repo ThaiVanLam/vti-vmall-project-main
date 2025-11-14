@@ -15,7 +15,6 @@ public class ApiResponse<T> {
     private String message;
     private String errorCode;
 
-
     public static <T> ApiResponse<T> success(T data) {
         var response = new ApiResponse<T>();
         response.setStatus(ResponseStatus.SUCCESS);
