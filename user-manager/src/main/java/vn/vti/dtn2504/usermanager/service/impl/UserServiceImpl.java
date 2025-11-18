@@ -5,6 +5,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import vn.vti.dtn2504.usermanager.client.NotificationClient;
+import vn.vti.dtn2504.usermanager.client.payload.request.SendNotificationRequest;
 import vn.vti.dtn2504.usermanager.dto.request.CreateAccountRequest;
 import vn.vti.dtn2504.usermanager.dto.response.CreateAccountResponse;
 import vn.vti.dtn2504.usermanager.entity.User;
@@ -16,7 +18,7 @@ import vn.vti.dtn2504.usermanager.service.UserService;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
-
+    private final NotificationClient notificationClient;
     private final PasswordEncoder passwordEncoder;
 
     @Override
@@ -29,6 +31,11 @@ public class UserServiceImpl implements UserService {
         CreateAccountResponse createAccountResponse = new CreateAccountResponse();
         createAccountResponse.setUsername(userSaved.getUsername());
         createAccountResponse.setEmail(userSaved.getEmail());
+        SendNotificationRequest sendNotificationRequest = new SendNotificationRequest();
+        sendNotificationRequest.setMessage("Welcome");
+        sendNotificationRequest.setTitle("Welcome email");
+        sendNotificationRequest.setSendTo(userSaved.getEmail());
+        notificationClient.sendNotification(sendNotificationRequest);
         return createAccountResponse;
     }
 }
